@@ -741,6 +741,12 @@ public class SnowflakeFileTransferAgent extends SFBaseFileTransferAgent {
 
   public SnowflakeFileTransferAgent(String command, SFSession session, SFStatement statement)
       throws SnowflakeSQLException {
+
+    String enable = System.getenv("ENABLE_FILE_TRANSFER_AGENT");
+    if (enable != null && enable.toLowerCase() != "true") {
+      throw new SnowflakeSQLException("File transfers have been disabled.");
+    }
+
     this.command = command;
     this.session = session;
     this.statement = statement;
